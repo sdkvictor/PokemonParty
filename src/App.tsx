@@ -1,25 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import PartyPage from 'pages/PartyPage';
+import PokemonPage from 'pages/PokemonPage';
+import HeaderLink from 'components/HeaderLink';
+import RQSuperHeroesPage from './pages/RQSuperHeroesPage';
+import HomePage from './pages/HomePage';
 
+const queryClient = new QueryClient();
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <HeaderLink route="/" title="Home" />
+              </li>
+
+              <li>
+                <HeaderLink route="/party" title="My Party" />
+              </li>
+            </ul>
+          </nav>
+          <Routes>
+            <Route path="/rq-super-heroes" element={<RQSuperHeroesPage />} />
+            <Route path="/party" element={<PartyPage />} />
+            <Route path="/pokemon" element={<PokemonPage />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+    </QueryClientProvider>
   );
 }
 
